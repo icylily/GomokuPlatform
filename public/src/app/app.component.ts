@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  name = 'Angular';
+  name = ', Welcome to Gomoku Dojo. Let\'s play' ;
 }
