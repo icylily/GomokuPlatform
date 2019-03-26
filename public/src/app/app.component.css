@@ -1,0 +1,28 @@
+/* body {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			canvas {
+				background-color: #ddd;
+				display: block;
+			}
+			.tools {
+				display: flex;
+				justify-content: center;
+			}
+			.tools > button {
+				margin: 0 1rem;
+				border: solid 1px ;
+				background-color:paleturquoise;
+				padding: .5rem 1rem;
+				font-size: 1rem;
+				cursor: pointer;
+			}
+			.tools > button:hover {
+				background-color: #aaa;
+			} */
+
+			p {
+  font-family: Lato;
+}
