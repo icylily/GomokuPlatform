@@ -1,0 +1,8 @@
+1.create 
+./app/global-shim
+
+(window as any).global = window;
+
+2./public/src/polyfills.ts
+import './app/global-shim';
+
