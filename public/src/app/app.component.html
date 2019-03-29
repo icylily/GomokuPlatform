@@ -1,3 +1,35 @@
 <h1>{{title}}</h1>
 <!-- <app-canvas></app-canvas> -->
-<app-board></app-board>
+{{page|json}}
+<div class="container">
+<div *ngIf="page==='index'" class="card-body" >
+    <form (submit)="get_new_user()">
+  
+    <div class="form-group">
+        <label class="col-md-4">Please enter your Name</label>
+        <input type="text" class="form-control" name="user.name" [(ngModel)]="user.name" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Enter</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+    </form> 
+</div>  
+{{allRooms|json}}
+<div *ngIf="page==='room_list'" class="card-body">
+    <div class="row mt-5">
+        <button (click)='newRoom()' class="sidenav__btn">Create Room</button><br>
+    </div>
+   <div class="row">
+    <div *ngFor='let id of allRooms' (click)='loadRoom(id)' class="room">Room {{id}}
+    </div>
+   </div>
+    
+
+</div>
+
+
+
+<app-board *ngIf="page==='room'"></app-board>
+
+</div>

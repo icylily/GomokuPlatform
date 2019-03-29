@@ -13,14 +13,15 @@ import { Room } from 'src/app/common/room';
     styles: ['canvas { border: 1px solid #000;background-color:#d4b00fbd; }']
 })
 export class BoardComponent implements AfterViewInit {
-    room: Room;
+    // room: Room;
     private _gameSub: Subscription;
 
     @ViewChild('board') public canvas: ElementRef;
 
     @Input() public width = 600;
     @Input() public height = 600;
-    @Input() user = {};
+     user = {};
+     room = {};
 
 
     private cx: CanvasRenderingContext2D;
@@ -55,6 +56,9 @@ export class BoardComponent implements AfterViewInit {
         this.cx.lineCap = 'round';
         this.cx.strokeStyle = '#111';
 
+        console.log("init room is ",this.room);
+        console.log("init user is ", this.user);
+
 
         this._gameSub = this.httpService.game
             .subscribe(data => {
@@ -62,7 +66,13 @@ export class BoardComponent implements AfterViewInit {
                 console.log(data)
                 // this.title = data.msg;
                 if(data.type == "start"){
-                    this.user = data.user;
+                    
+                    this.room = data.room;
+                    this.user =  data.user;
+                    
+                    // alert("start, please put a stone down")
+                    console.log("start...",this.user)
+                    
                 } 
                 else if (data.type =="draw_chess_man"){
                     this.drawChessman(data.option.x,data.option.y,data.option.role);

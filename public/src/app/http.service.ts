@@ -13,7 +13,24 @@ export class HttpService {
   constructor(private socket: Socket) { }
   message = this.socket.fromEvent<any>('message');
   game = this.socket.fromEvent<any>('game');
+  allRooms = this.socket.fromEvent<string[]>('allRooms');
+  id = 0;
 
+  private createId(): string {
+    this.id++;
+    return `${this.id}`;
+  }
+
+  createRoom(id:any) {
+    console.log("create room ,id is ",id);
+    return this.socket.emit('addRoom', { id: id, chat: '' });
+
+  }
+  enterRoom(id:any){
+    console.log("enter room",id);
+    return this.socket.emit('enterRoom',{id:id});
+  }
+  
   get_new_user(name: string) {
     return this.socket.emit('get_new_user', name);
   }

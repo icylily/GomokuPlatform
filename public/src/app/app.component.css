@@ -26,3 +26,13 @@
 			p {
   font-family: Lato;
 }
+.room{
+	width: 100px;
+	height: 100px;
+	background-color: cornflowerblue;
+	border:solid 1px yellow;
+	display: inline-block;
+	margin: auto;
+	margin-top:20px;
+	padding:auto;
+}
