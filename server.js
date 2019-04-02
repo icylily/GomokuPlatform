@@ -56,23 +56,31 @@ io.on("connection", socket => {
     });
 
     socket.on("enterRoom", room => {
+
         console.log("enter room ",room);
-        users[socket.id].room = room.id;
-        socket.join(room.id); 
-        users[socket.id].role = "player";
-        users[socket.id].isBlack = true;
-        users[socket.id].current = false;
-        rooms[room.id].status = "battle";
-        rooms[room.id].user_num = 2;
-        rooms[room.id].black = socket.id;
-        rooms[room.id].current = rooms[room.id].white;
-        users[rooms[room.id].current].current=true;
-        console.log("room", rooms[room.id]);
-        console.log("user", users[socket.id]);
-        socket.emit("message", { type: "enter_room", msg: "Welcome, let's play.", room: rooms[room.id], user: users[socket.id] })
-        // socket.to(room.id).emit("game", { type: "start", room: rooms[room.id], user: users[socket.id]});
-        socket.emit('game', { type: "start", msg: "Game start. Please put piece down", room: rooms[room.id], user: users[rooms[room.id].current] })
-        io.sockets.connected[rooms[room.id].current].emit('game', { type: "start", msg: "Game start. Please put piece down",room:rooms[room.id], user: users[rooms[room.id].current] });
+        
+    //    if (rooms[room.id].user_num < 2) {
+            users[socket.id].room = room.id;
+            socket.join(room.id);
+            users[socket.id].role = "player";
+            users[socket.id].isBlack = true;
+            users[socket.id].current = false;
+            rooms[room.id].status = "battle";
+            rooms[room.id].user_num = 2;
+            rooms[room.id].black = socket.id;
+            rooms[room.id].current = rooms[room.id].white;
+            users[rooms[room.id].current].current = true;
+            console.log("room", rooms[room.id]);
+            console.log("user", users[socket.id]);
+            socket.emit("message", { type: "enter_room", msg: "Welcome, let's play. Now is other's turn", room: rooms[room.id], user: users[socket.id] })
+            // socket.to(room.id).emit("game", { type: "start", room: rooms[room.id], user: users[socket.id]});
+            socket.emit('game', { type: "start", msg: "Game start. Please put piece down", room: rooms[room.id], user: users[socket.id] })
+            io.sockets.connected[rooms[room.id].current].emit("message", { type: "enter_room", msg: "other player joined, game started .now is your turn" })
+            io.sockets.connected[rooms[room.id].current].emit('game', { type: "start", msg: "Game start. Please put piece down", room: rooms[room.id], user: users[rooms[room.id].current] });
+    //     }
+    //    else if (rooms[room.id].user_num == 2) {
+    //        socket.emit("message", { type: "enter_deny", msg: "This room already full. Please choose other one." })
+    //    }
 
     });
     // socket.on("get_new_user",name=>{
@@ -114,6 +122,8 @@ io.on("connection", socket => {
         }
         users[rooms[room_id].current].current= true;
         socket.emit('game', { type: 'lock' });
+        socket.emit("message", { type: "enter_room", msg: " Now is other's turn" })
+        io.sockets.connected[rooms[room_id].current].emit("message", { type: "enter_room", msg: " Now is your turn"})
         io.sockets.connected[rooms[room_id].current].emit('game', { type: "start", msg: "Game start. Please put piece down", room: rooms[room_id], user: users[rooms[room_id].current] });
         // socket.to(room_id).emit("game", { type: "start", room: rooms[room.id], user: users[socket.id] });
         // if (socket.id==this.firstuser){
@@ -130,6 +140,17 @@ io.on("connection", socket => {
 
     socket.on("game_over" ,() =>{
         // socket.broadcast.emit('game',{type:"game_over",user:users[socket.id]});
+        socket.emit("message", { type: "enter_room", msg: " Congration!! You won!!!" });
+        let room_id = users[socket.id].room;
+        if (socket.id == rooms[room_id].white ){
+            loser_id = rooms[room_id].black;
+            
+        }
+        else{
+            loser_id = rooms[room_id].white;
+        }
+        io.sockets.connected[loser_id].emit("message", { type: "enter_room", msg: "OOOPS. YOU LOST!" })
+        // io.emit("message", { type: "enter_room", msg: "Game over" })
         io.emit('game', { type: "game_over", user: users[socket.id] });
         console.log("emit game over");
 

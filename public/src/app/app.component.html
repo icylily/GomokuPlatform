@@ -1,6 +1,6 @@
 <h1>{{title}}</h1>
 <!-- <app-canvas></app-canvas> -->
-{{page|json}}
+<!-- {{page|json}} -->
 <div class="container">
 <div *ngIf="page==='index'" class="card-body" >
     <form (submit)="get_new_user()">
@@ -15,7 +15,7 @@
     </div>
     </form> 
 </div>  
-{{allRooms|json}}
+<!-- {{allRooms|json}} -->
 <div *ngIf="page==='room_list'" class="card-body">
     <div class="row mt-5">
         <button (click)='newRoom()' class="sidenav__btn">Create Room</button><br>

@@ -1,16 +1,12 @@
-import {Component, Input, ElementRef, AfterViewInit, ViewChild} from '@angular/core';
-import { fromEvent } from 'rxjs';
-import { switchMap, takeUntil, pairwise } from 'rxjs/operators'
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { startWith } from 'rxjs/operators';
 import { HttpService } from 'src/app/http.service';
-import { Room } from 'src/app/common/room';
 
 @Component({
     selector: 'app-board',
     templateUrl: './board.componet.html',
     // template: '<canvas #board></canvas>',
-    styles: ['canvas { border: 1px solid #000;background-color:#d4b00fbd; }']
+    styleUrls: ['./app.component.css']
 })
 export class BoardComponent implements AfterViewInit {
     // room: Room;
@@ -20,6 +16,8 @@ export class BoardComponent implements AfterViewInit {
 
     @Input() public width = 600;
     @Input() public height = 600;
+    @Input() user_parent = {};
+    @Input() room_parent = {};
      user = {};
      room = {};
 
@@ -83,7 +81,8 @@ export class BoardComponent implements AfterViewInit {
                 else if (data.type == "game_over"){
                     console.log("game over");
                     this.user['current'] = false;
-                    alert("game over."+data.user.name+'won');
+                    this.canvas.nativeElement.onclick = null
+                    // alert("game over."+data.user.name+'won');
                 }
                 
             });
@@ -241,7 +240,7 @@ export class BoardComponent implements AfterViewInit {
             })
         // while any side won, call listen event
         if (countContinuous) {
-            this.canvas.nativeElement.onclick = null
+            this.canvas.nativeElement.onclick = null;
             this.win = true
             this.httpService.game_over();
             // alert((role == 1 ? 'Black ' : 'White ') + 'side won' + countContinuous + 'times!')

@@ -10,8 +10,8 @@ import { CanvasComponent } from './canvas.component';
 import { BoardComponent } from './board.component';
 import { HttpService } from './http.service';
 
-// const config: SocketIoConfig = { url: 'http://192.168.1.152:7000', options: {} };
-const config: SocketIoConfig = { url: 'localhost:7000', options: {} };
+const config: SocketIoConfig = { url: 'http://192.168.1.152:7000', options: {} };
+// const config: SocketIoConfig = { url: 'localhost:7000', options: {} };
 // const config: SocketIoConfig = { url: environment.ws_url, options: {} };
 @NgModule({
   imports: [

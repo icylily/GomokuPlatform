@@ -54,6 +54,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.room = data.room;
         this.user = data.user;
       }
+      if (data.type =="enter_deny"){
+        alert("this room already full!");
+      }
     });
    
   }
